@@ -9,15 +9,16 @@ import SwiftUI
 
 struct TimeBoardView: View {
     
+    @State var viewModel = Model()
     
     var body: some View {
         VStack(spacing: 60){
             ProfileView()
-            ProgressView()
+            ProgressView(viewModel: viewModel)
             HStack{
-                NoteOverview()
+                NoteOverview(viewModel: viewModel)
                 Spacer()
-                InfoView()
+                InfoView(viewModel: viewModel)
                     .frame(height: 400, alignment: .top)
             }
             Spacer()

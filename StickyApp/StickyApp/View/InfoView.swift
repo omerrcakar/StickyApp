@@ -11,13 +11,15 @@ struct InfoView: View {
     // @StateObject, SwiftUI içinde bir observable (gözlemlenebilir) nesne oluşturmamıza yardımcı olur.
     // InfoView her yeniden çizildiğinde (re-render edildiğinde) timerViewModel nesnesi sıfırdan oluşturulmaz, yani durum (state) korunur.
     @StateObject var timerViewModel = TimeViewModel()
+    var viewModel: Model
+    
     
     var body: some View {
         VStack(spacing: 30) {
             VStack(alignment: .leading){
                 Text(Date().formatted(.dateTime.day()))
                     .font(.system(size: 110))
-                Text("0 Avaliable task")
+                Text("\(viewModel.tasks - viewModel.completed) Avaliable task")
                     .bold()
                 Text(Date().formatted(.dateTime.weekday(.wide)))
                 }
@@ -34,9 +36,19 @@ struct InfoView: View {
                     .font(.system(size: 33))
                 Text("Last task is")
                     .bold()
-                Text("No task yet all you need is to add new one")
-                    .frame(width: 128, height: 52, alignment: .topLeading)
-                    .font(.footnote)
+                
+                if viewModel.notes.isEmpty{
+                    Text("No task yet all you need is to add new one")
+                        .frame(width: 128, height: 52, alignment: .topLeading)
+                        .font(.footnote)
+                }
+                if let lastNote = viewModel.notes.last{
+                    Text(lastNote.note)
+                        
+                        .frame(width: 128, height: 52, alignment: .topLeading)
+                        .font(.footnote)
+                }
+                
             }
             
             
@@ -46,5 +58,5 @@ struct InfoView: View {
 }
 
 #Preview {
-    InfoView()
+    InfoView(viewModel: Model())
 }

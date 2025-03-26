@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProgressView: View {
     
+    var viewModel: Model
     
     var body: some View {
         HStack(spacing: 50) {
@@ -18,13 +19,13 @@ struct ProgressView: View {
                     .frame(width: 120, height: 120)
                     .opacity(0.3)
                 Circle()
-                    .trim(from: 0, to: 0.75)
+                    .trim(from: 0, to: Double(viewModel.completed) / Double(viewModel.tasks))
                     .stroke(style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
                     .frame(width: 120, height: 120)
                     .foregroundStyle(.blue.opacity(0.4))
                     .rotationEffect(.degrees(-90))
                 VStack(spacing: 3){
-                    Text("0")
+                    Text("\(viewModel.tasks - viewModel.completed)")
                         .font(.system(size: 40))
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 30, height: 3)
@@ -64,5 +65,5 @@ struct ProgressView: View {
 }
 
 #Preview {
-    ProgressView()
+    ProgressView(viewModel: Model())
 }

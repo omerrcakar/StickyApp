@@ -11,6 +11,7 @@ struct TabBarView: View {
     
     @Binding var selectedTab:TabBarViews
     @Environment(\.colorScheme) var isdark
+    @Binding var show: Bool
     
     var body: some View {
         HStack(spacing: 45){
@@ -48,6 +49,12 @@ struct TabBarView: View {
         .padding(.horizontal, 35)
         .overlay{
             Button{
+                selectedTab = .add
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                    withAnimation{
+                        show = true
+                    }
+                }
                 
             }label: {
                 Image(systemName: "plus")
@@ -65,5 +72,5 @@ struct TabBarView: View {
 }
 
 #Preview {
-    TabBarView(selectedTab: .constant(.home))
+    TabBarView(selectedTab: .constant(.home), show: .constant(false))
 }

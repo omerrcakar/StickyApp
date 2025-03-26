@@ -14,22 +14,22 @@ enum TabBarViews{
 struct HomeView: View {
     
     @State var selectTab = TabBarViews.home
+    @State var show : Bool = false
+    @State var viewModel = Model()
     
     var body: some View {
         ZStack{
             switch selectTab{
             case .home:
-                TimeBoardView()
-            case .list:
-                Text("List View")
-            case .add:
-                Text("Add View")
+                TimeBoardView(viewModel: viewModel)
+            case .list, .add:
+                BorderView(viewModel: viewModel,show: $show)
             case .notif:
                 Text("Notif View")
             case .search:
                 Text("Search View")
             }
-            TabBarView(selectedTab: $selectTab)
+            TabBarView(selectedTab: $selectTab, show: $show)
                 .frame(maxHeight: .infinity, alignment: .bottom)
         }
     }

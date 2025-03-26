@@ -20,51 +20,63 @@ struct AddNewNoteView: View {
     
     
     var body: some View {
-        VStack{
-            TextEditor(text: isTyping ? $title : $title2)
-                .focused($isTyping)
-                .font(.custom("JustAnotherHand-Regular", size: 25))
-                .frame(height: 70)
-                .foregroundStyle(title.count >= 60 ? .red : .primary)
-                .clipShape(.rect(cornerRadius: 10))
-                .overlay(alignment: .bottomTrailing){
-                    Text("\(title.count) / 60")
-                        .foregroundStyle(title.count >= 60 ? .red : .primary)
-                        .padding(.horizontal, 5)
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation{
+                        show = false
+                    }
+                }
+            VStack(spacing: 15){
+                TextEditor(text: isTyping ? $title : $title2) // Text editore tıklanınca ayrı bir title gözükecek tıklamadan önce ayrı
+                    .focused($isTyping)
+                    .font(.custom("JustAnotherHand-Regular", size: 25))
+                    .frame(height: 70)
+                    .foregroundStyle(title.count >= 60 ? .red : .primary)
+                    .clipShape(.rect(cornerRadius: 10))
+                    .overlay(alignment: .bottomTrailing){
+                        Text("\(title.count) / 60")
+                            .foregroundStyle(title.count >= 60 ? .red : .primary)
+                            .padding(.horizontal, 5)
+                            .padding(.bottom, 5)
+                    }
+                
+                HStack(spacing: 10){
+                    ForEach(cards, id: \.self){ item in
+                        Image(item)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 55, height: 55)
+                            .scaleEffect(selected == item ? 1.5 : 1)
+                            .animation(.spring, value: selected)
+                            .onTapGesture {
+                                selected = item
+                            }
+                    }
                 }
                 
-            HStack(spacing: 10){
-                ForEach(cards, id: \.self){ item in
-                    Image(item)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 55, height: 55)
-                        .scaleEffect(selected == item ? 1.5 : 1)
-                        .animation(.spring, value: selected)
-                        .onTapGesture {
-                            selected = item
-                        }
+                Button{
+                    withAnimation{
+                        viewModel.notes.append(NoteModel(card: selected, note: title, position: CGPoint(x: 100, y: 200)))
+                        title = ""
+                        show = false
+                        viewModel.tasks += 1
+                    }
+                }label: {
+                    Text("Save")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(.white)
                 }
             }
-            
-            Button{
-                withAnimation{
-                    viewModel.notes.append(NoteModel(card: selected, note: title, position: CGPoint(x: 100, y: 200)))
-                    title = ""
-                    show = false
-                }
-            }label: {
-                Text("Save")
-                    .bold()
-                    .frame(maxWidth: .infinity)
-                    .foregroundStyle(.white)
-            }
+            .padding(.horizontal, 10)
+            .frame(maxWidth: .infinity)
+            .frame(height: 200)
+            .background(.black, in: .rect(cornerRadius: 20))
+            .padding()
+            .frame(maxHeight: .infinity, alignment: .bottom)
         }
-        .padding(.horizontal, 10)
-        .frame(maxWidth: .infinity)
-        .frame(height: 250)
-        .background(.black, in: .rect(cornerRadius: 20))
-        .padding()
     }
     
     

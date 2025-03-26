@@ -27,6 +27,7 @@ struct BorderView: View {
     @State var viewModel = Model()
     @State var isDraggingOverTrash: Bool = false
     @State var edit: Bool = false
+    @Binding var show: Bool
     
     var body: some View {
         ZStack{
@@ -57,6 +58,7 @@ struct BorderView: View {
                                 if edit{
                                     if isDraggingOverTrash{
                                         viewModel.notes.removeAll{$0.id == item.id}
+                                        viewModel.completed += 1
                                     }
                                     isDraggingOverTrash = false
                                 }
@@ -70,6 +72,11 @@ struct BorderView: View {
                 
                 
             }
+            GeometryReader { geometry in
+                AddNewNoteView(viewModel: viewModel, show: $show)
+                    .offset(y: show ? -100 : geometry.size.height)
+            }
+            
             
             VStack{
                 HStack{
@@ -90,6 +97,13 @@ struct BorderView: View {
             }
             
         }
+        .onChange(of: viewModel.notes.count) { oldValue, newValue in
+            if viewModel.notes.count == 0{
+                viewModel.tasks = 0
+                viewModel.completed = 0
+            }
+        }
+        
     }
     
     
@@ -109,5 +123,5 @@ struct BorderView: View {
 }
 
 #Preview {
-    BorderView()
+    BorderView(show: .constant(false))
 }
