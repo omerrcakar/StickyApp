@@ -8,9 +8,24 @@
 import SwiftUI
 
 struct TimeBoardView: View {
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 60){
+            ProfileView()
+            ProgressView()
+            HStack{
+                NoteOverview()
+                Spacer()
+                InfoView()
+                    .frame(height: 400, alignment: .top)
+            }
+            Spacer()
+        }
+        .padding(.horizontal)
     }
+    
+    
 }
 
 #Preview {

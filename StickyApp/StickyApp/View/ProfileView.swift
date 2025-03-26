@@ -14,13 +14,13 @@ struct ProfileView: View {
         HStack{
             Image(systemName: "rectangle.grid.2x2")
                 .padding(10)
-                .bold()
                 .overlay{
                     RoundedRectangle(cornerRadius: 6)
-                        .stroke(lineWidth: 2)
+                        .stroke(lineWidth: 1)
                 }
             Spacer()
             Text("TimeBoard")
+                .font(.custom("JustAnotherHand-Regular", size: 30))
                 .bold()
             Spacer()
             Image(systemName: "person.crop.square.on.square.angled")

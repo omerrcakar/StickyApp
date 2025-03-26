@@ -7,10 +7,35 @@
 
 import SwiftUI
 
+enum TabBarViews{
+    case home, list,add,notif,search
+}
+
 struct HomeView: View {
+    
+    @State var selectTab = TabBarViews.home
+    
     var body: some View {
-        Text("Hello, World!")
+        ZStack{
+            switch selectTab{
+            case .home:
+                TimeBoardView()
+            case .list:
+                Text("List View")
+            case .add:
+                Text("Add View")
+            case .notif:
+                Text("Notif View")
+            case .search:
+                Text("Search View")
+            }
+            TabBarView(selectedTab: $selectTab)
+                .frame(maxHeight: .infinity, alignment: .bottom)
+        }
     }
+    
+    
+    
 }
 
 #Preview {

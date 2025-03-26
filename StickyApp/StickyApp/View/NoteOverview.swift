@@ -9,7 +9,11 @@ import SwiftUI
 
 struct NoteOverview: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            StickerNote(image: .note, title: "1. \n Click on + button", degrees: 3)
+            StickerNote(image: .note1, title: "2. \n Type your task", degrees: -4)
+            StickerNote(image: .note2, title: "3. \n Choose the sticker \n color", degrees: 1)
+        }
     }
 }
 

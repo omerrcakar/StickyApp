@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct InfoView: View {
-    
+    // @StateObject, SwiftUI içinde bir observable (gözlemlenebilir) nesne oluşturmamıza yardımcı olur.
+    // InfoView her yeniden çizildiğinde (re-render edildiğinde) timerViewModel nesnesi sıfırdan oluşturulmaz, yani durum (state) korunur.
     @StateObject var timerViewModel = TimeViewModel()
     
     var body: some View {
@@ -26,6 +27,8 @@ struct InfoView: View {
                 .foregroundStyle(.gray.opacity(0.3))
                 .offset(y: 5)
             
+            
+            // timerViewModel.currentTime → TimeViewModel içinde otomatik olarak güncellenen saat bilgisidir.
             VStack(alignment: .leading){
                 Text(timerViewModel.currentTime)
                     .font(.system(size: 33))
