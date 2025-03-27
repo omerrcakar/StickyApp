@@ -11,7 +11,7 @@ import SwiftUI
 struct StickyAppApp: App {
     var body: some Scene {
         WindowGroup {
-            BlurGradient()
+            OnboardingView()
         }
     }
 }
